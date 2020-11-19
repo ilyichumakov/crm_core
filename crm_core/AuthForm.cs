@@ -41,6 +41,8 @@ namespace crm_core
 
                     if (target_user.validate_password(password))
                     {
+                        var owner = this.Owner as Form1;
+                        owner.User = target_user;
                         this.Dispose();
                         return;
                     } 

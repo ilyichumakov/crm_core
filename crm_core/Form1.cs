@@ -12,6 +12,8 @@ namespace crm_core
 {
     public partial class Form1 : Form
     {
+        private Users _user;
+        public Users User { set { _user = value; } }
         public Form1()
         {
             InitializeComponent();
