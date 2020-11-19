@@ -22,32 +22,42 @@ namespace crm_core
             string username = username_input.Text;
             string password = password_input.Text;
 
-            using(crmContext db = new crmContext())
+            try
             {
-                var target_user = db.Users.FirstOrDefault(u => u.Username == username);
-                if (target_user is null)
+                using(crmContext db = new crmContext())
                 {
-                    MessageBox.Show("Пользователь не найден", "Неудача", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
-                if (target_user.validate_password(password))
-                {
-                    this.Dispose();
-                    return;
-                } 
-                else
-                {
-                    var user_decision = MessageBox.Show(
-                        "Неверный пароль, повторите попытку авторизации",
-                        "Неверный пароль",
-                        MessageBoxButtons.OKCancel,
-                        MessageBoxIcon.Warning
-                    );
-                    if (user_decision != DialogResult.OK)
+                    var target_user = db.Users.FirstOrDefault(u => u.Username == username);
+                    if (target_user is null)
                     {
-                        this.Owner.Dispose();
+                        MessageBox.Show("Пользователь не найден", "Неудача", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        return;
                     }
+
+                    if (target_user.validate_password(password))
+                    {
+                        this.Dispose();
+                        return;
+                    } 
+                    else
+                    {
+                        var user_decision = MessageBox.Show(
+                            "Неверный пароль, повторите попытку авторизации",
+                            "Неверный пароль",
+                            MessageBoxButtons.OKCancel,
+                            MessageBoxIcon.Warning
+                        );
+                        if (user_decision != DialogResult.OK)
+                        {
+                            this.Owner.Dispose();
+                        }
+                    }
+                }
+            }
+            catch(InvalidOperationException){
+                var res = MessageBox.Show("Сервер недоступен", "Сетевые неполадки", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                if (res == DialogResult.Cancel)
+                {
+                    this.Owner.Dispose();
                 }
             }
         }
