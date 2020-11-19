@@ -19,7 +19,8 @@ namespace crm_core
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            var auth = new AuthForm();
+            auth.ShowDialog(this);
         }
 
     }
