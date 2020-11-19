@@ -22,6 +22,12 @@ namespace crm_core
             string username = username_input.Text;
             string password = password_input.Text;
 
+            if (username == "" || password == "")
+            {
+                MessageBox.Show("Введите логин и пароль для входа!", "Учетные данные", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
             try
             {
                 using(crmContext db = new crmContext())
