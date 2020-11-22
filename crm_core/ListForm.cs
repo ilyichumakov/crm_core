@@ -38,6 +38,12 @@ namespace crm_core
 
         private int _page = 1;
         private int _pages = 1;
+        private event Paginator paginate;
+        public void Notify(int parameter)
+        {
+            paginate?.Invoke(parameter);
+        }
+        
         public int Page
         {
             get
@@ -52,6 +58,7 @@ namespace crm_core
                 if (target > _pages)
                     target = _pages;
                 _page = target;
+                this.Notify(target);
             }
         }
         public Dictionary<string, string> state_choices { 
@@ -131,6 +138,7 @@ namespace crm_core
                     switch (State)
                     {
                         case LEADS:
+                            _pages = db.Leads.Count();
                             var leads_list = db.Leads.OrderByDescending(
                                     l => l.DtUpdated
                                 ).Skip(
@@ -142,7 +150,8 @@ namespace crm_core
                             table.header<Leads>();
                             rows = iterate_data(leads_list);
                             break;
-                        case CLIENTS:                            
+                        case CLIENTS:
+                            _pages = db.NaturalPerson.Count();
                             var client_list = db.NaturalPerson.OrderByDescending(
                                     p => p.DtUpdated
                                 ).Skip(
@@ -155,6 +164,7 @@ namespace crm_core
                             rows = iterate_data(client_list);
                             break;
                         case ORDERS:
+                            _pages = db.Deals.Count();
                             var order_list = db.Deals.OrderByDescending(
                                     d => d.DtUpdated
                                 ).Skip(
@@ -167,6 +177,7 @@ namespace crm_core
                             rows = iterate_data(order_list);
                             break;
                         case BILLS:
+                            _pages = db.Bills.Count();
                             var bill_list = db.Deals.OrderByDescending(
                                     b => b.DtUpdated
                                 ).Skip(
@@ -179,6 +190,7 @@ namespace crm_core
                             rows = iterate_data(bill_list);
                             break;
                         case DOCUMENTS:
+                            _pages = db.Documents.Count();
                             var doc_list = db.Deals.OrderByDescending(
                                     doc => doc.DtUpdated
                                 ).Skip(
@@ -191,6 +203,7 @@ namespace crm_core
                             rows = iterate_data(doc_list);
                             break;
                         default:
+                            _pages = 1;
                             rows = new List<object[]>();
                             break;
                     }
@@ -201,7 +214,7 @@ namespace crm_core
                     table.Rows.Add(row);
                 }
                 data_panel.Controls.Add(table);
-
+                pages_label.Text = $"{_page}/{_pages}";
             }
             catch (InvalidOperationException)
             {
@@ -216,7 +229,8 @@ namespace crm_core
         public ListForm( Form1 owner)
         {
             InitializeComponent();
-            Owner = owner;            
+            Owner = owner;
+            paginate += load_data;
         }
 
         private void ListForm_Load(object sender, EventArgs e)
@@ -233,6 +247,16 @@ namespace crm_core
         {
             var groups = menuStrip1.Items["toolStripComboBox1"] as ToolStripComboBox;
             State = state_choices.FirstOrDefault(x => x.Value == groups.Text).Key;
+        }
+
+        private void next_page_Click(object sender, EventArgs e)
+        {
+            Page += 1;
+        }
+
+        private void prev_page_Click(object sender, EventArgs e)
+        {
+            Page -= 1;
         }
     }
 }

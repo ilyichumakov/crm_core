@@ -31,8 +31,9 @@
             this.data_panel = new System.Windows.Forms.Panel();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.next_page = new System.Windows.Forms.Button();
+            this.prev_page = new System.Windows.Forms.Button();
+            this.pages_label = new System.Windows.Forms.Label();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -62,35 +63,46 @@
             this.toolStripComboBox1.Name = "toolStripComboBox1";
             this.toolStripComboBox1.Size = new System.Drawing.Size(121, 23);
             // 
-            // button1
+            // next_page
             // 
-            this.button1.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button1.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button1.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
-            this.button1.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.button1.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Location = new System.Drawing.Point(609, 462);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(115, 26);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Далее";
-            this.button1.UseVisualStyleBackColor = false;
+            this.next_page.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.next_page.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.next_page.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
+            this.next_page.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.next_page.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
+            this.next_page.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.next_page.Location = new System.Drawing.Point(609, 462);
+            this.next_page.Name = "next_page";
+            this.next_page.Size = new System.Drawing.Size(115, 26);
+            this.next_page.TabIndex = 2;
+            this.next_page.Text = "Далее";
+            this.next_page.UseVisualStyleBackColor = false;
+            this.next_page.Click += new System.EventHandler(this.next_page_Click);
             // 
-            // button2
+            // prev_page
             // 
-            this.button2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button2.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.button2.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
-            this.button2.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
-            this.button2.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Location = new System.Drawing.Point(171, 462);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(115, 26);
-            this.button2.TabIndex = 2;
-            this.button2.Text = "Назад";
-            this.button2.UseVisualStyleBackColor = false;
+            this.prev_page.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.prev_page.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.prev_page.FlatAppearance.BorderColor = System.Drawing.Color.Gainsboro;
+            this.prev_page.FlatAppearance.MouseDownBackColor = System.Drawing.Color.DarkSeaGreen;
+            this.prev_page.FlatAppearance.MouseOverBackColor = System.Drawing.Color.GreenYellow;
+            this.prev_page.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.prev_page.Location = new System.Drawing.Point(171, 462);
+            this.prev_page.Name = "prev_page";
+            this.prev_page.Size = new System.Drawing.Size(115, 26);
+            this.prev_page.TabIndex = 2;
+            this.prev_page.Text = "Назад";
+            this.prev_page.UseVisualStyleBackColor = false;
+            this.prev_page.Click += new System.EventHandler(this.prev_page_Click);
+            // 
+            // pages_label
+            // 
+            this.pages_label.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.pages_label.AutoSize = true;
+            this.pages_label.Location = new System.Drawing.Point(432, 468);
+            this.pages_label.Name = "pages_label";
+            this.pages_label.Size = new System.Drawing.Size(0, 15);
+            this.pages_label.TabIndex = 3;
             // 
             // ListForm
             // 
@@ -98,8 +110,9 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(227)))), ((int)(((byte)(236)))), ((int)(((byte)(253)))));
             this.ClientSize = new System.Drawing.Size(915, 510);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.pages_label);
+            this.Controls.Add(this.prev_page);
+            this.Controls.Add(this.next_page);
             this.Controls.Add(this.data_panel);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
@@ -121,7 +134,8 @@
         private System.Windows.Forms.Panel data_panel;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button next_page;
+        private System.Windows.Forms.Button prev_page;
+        private System.Windows.Forms.Label pages_label;
     }
 }
