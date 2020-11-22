@@ -140,6 +140,21 @@ namespace crm_core
                             table.header<NaturalPerson>();
                             rows = iterate_data(client_list);
                             break;
+                        case ORDERS:
+                            var order_list = db.Deals.OrderByDescending(d => d.DtUpdated).Take(50).ToList();
+                            table.header<Deals>();
+                            rows = iterate_data(order_list);
+                            break;
+                        case BILLS:
+                            var bill_list = db.Deals.OrderByDescending(b => b.DtUpdated).Take(50).ToList();
+                            table.header<Bills>();
+                            rows = iterate_data(bill_list);
+                            break;
+                        case DOCUMENTS:
+                            var doc_list = db.Deals.OrderByDescending(doc => doc.DtUpdated).Take(50).ToList();
+                            table.header<Documents>();
+                            rows = iterate_data(doc_list);
+                            break;
                         default:
                             rows = new List<object[]>();
                             break;
