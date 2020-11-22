@@ -23,15 +23,19 @@ namespace crm_core
         private void Form1_Load(object sender, EventArgs e)
         {
             var auth = new AuthForm();
-            auth.ShowDialog(this);
-            list_form = new ListForm(this);
-            list_form.State = ListForm.LEADS;
+            auth.ShowDialog(this);            
         }
 
         public void child_ready()
         {
-            list_form.ShowDialog();
+            if(!list_form.Visible)
+                list_form.ShowDialog();
         }
 
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            list_form = new ListForm(this);
+            list_form.State = ListForm.CLIENTS;
+        }
     }
 }
