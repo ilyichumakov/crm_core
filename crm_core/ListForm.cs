@@ -117,7 +117,7 @@ namespace crm_core
             return result;
         }
 
-        private void load_data()
+        private void load_data(int page = 1)
         {
             try
             {
@@ -131,27 +131,62 @@ namespace crm_core
                     switch (State)
                     {
                         case LEADS:
-                            var leads_list = db.Leads.OrderByDescending(l => l.DtUpdated).Take(50).ToList();
+                            var leads_list = db.Leads.OrderByDescending(
+                                    l => l.DtUpdated
+                                ).Skip(
+                                    (page - 1) * _page_size
+                                ).Take(
+                                    _page_size
+                                ).ToList();
+
                             table.header<Leads>();
                             rows = iterate_data(leads_list);
                             break;
                         case CLIENTS:                            
-                            var client_list = db.NaturalPerson.OrderByDescending(p => p.DtUpdated).Take(50).ToList();
+                            var client_list = db.NaturalPerson.OrderByDescending(
+                                    p => p.DtUpdated
+                                ).Skip(
+                                    (page - 1) * _page_size
+                                ).Take(
+                                    _page_size
+                                ).ToList();
+
                             table.header<NaturalPerson>();
                             rows = iterate_data(client_list);
                             break;
                         case ORDERS:
-                            var order_list = db.Deals.OrderByDescending(d => d.DtUpdated).Take(50).ToList();
+                            var order_list = db.Deals.OrderByDescending(
+                                    d => d.DtUpdated
+                                ).Skip(
+                                    (page - 1) * _page_size
+                                ).Take(
+                                    _page_size
+                                ).ToList();
+
                             table.header<Deals>();
                             rows = iterate_data(order_list);
                             break;
                         case BILLS:
-                            var bill_list = db.Deals.OrderByDescending(b => b.DtUpdated).Take(50).ToList();
+                            var bill_list = db.Deals.OrderByDescending(
+                                    b => b.DtUpdated
+                                ).Skip(
+                                    (page - 1) * _page_size
+                                ).Take(
+                                    _page_size
+                                ).ToList();
+
                             table.header<Bills>();
                             rows = iterate_data(bill_list);
                             break;
                         case DOCUMENTS:
-                            var doc_list = db.Deals.OrderByDescending(doc => doc.DtUpdated).Take(50).ToList();
+                            var doc_list = db.Deals.OrderByDescending(
+                                    doc => doc.DtUpdated
+                                ).Skip(
+                                    (page - 1) * _page_size
+                                ).Take(
+                                    _page_size
+                                ).ToList();
+
                             table.header<Documents>();
                             rows = iterate_data(doc_list);
                             break;
