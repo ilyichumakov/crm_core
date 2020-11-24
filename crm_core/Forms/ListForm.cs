@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Linq;
 using System.Reflection;
+using crm_core.Forms;
 
 namespace crm_core
 {
@@ -124,6 +125,54 @@ namespace crm_core
             return result;
         }
 
+        private void show_edit_form(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridView table = data_panel.Controls[0] as DataGridView;
+            DataGridViewTextBoxCell cell = (DataGridViewTextBoxCell) table.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            int pk = Int32.Parse(table.Rows[e.RowIndex].Cells[0].Value.ToString());
+            object item;
+
+            try
+            {
+                using (crmContext db = new crmContext())
+                {
+                    switch (State)
+                    {
+                        case LEADS:
+                           item = db.Leads.Find(pk);
+                            break;
+                        case CLIENTS:
+                            item = db.NaturalPerson.Find(pk);
+                            break;
+                        case ORDERS:
+                            item = db.Deals.Find(pk);
+                            break;
+                        case BILLS:
+                            item = db.Bills.Find(pk);
+                            break;
+                        case DOCUMENTS:
+                            item = db.Documents.Find(pk);
+                            break;
+                        default:
+                            item = "Not found";
+                            break;
+                    }
+                }
+            }
+            catch (InvalidOperationException)
+            {
+                var res = MessageBox.Show("Сервер недоступен", "Сетевые неполадки", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error);
+                if (res == DialogResult.Cancel)
+                {
+                    Owner.Dispose();
+                }
+                return;
+            }
+            EditForm edit_form = new EditForm();
+            edit_form.init_values(item);
+            edit_form.ShowDialog(this);
+        }
+
         private void load_data(int page = 1)
         {
             try
@@ -131,6 +180,9 @@ namespace crm_core
                 DataGridView table = new DataGridView();
                 clear_form();
                 table.AutoSize = true;
+                table.ReadOnly = true;
+                table.CellClick += show_edit_form;
+                
                 List<object[]> rows;
 
                 using (crmContext db = new crmContext())
@@ -223,6 +275,7 @@ namespace crm_core
                 {
                     Owner.Dispose();
                 }
+                return;
             }            
         }
 
@@ -257,6 +310,11 @@ namespace crm_core
         private void prev_page_Click(object sender, EventArgs e)
         {
             Page -= 1;
+        }
+
+        private void ListForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Owner.Dispose();
         }
     }
 }
