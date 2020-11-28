@@ -18,6 +18,10 @@ namespace crm_core
         public const string ORDERS = "ORDERS";
         public const string BILLS = "BILLS";
         public const string DOCUMENTS = "DOCUMENTS";
+        public const string GOODS = "GOODS";
+        public const string SERVICES = "SERVICES";
+        public const string STAFF = "STAFF";
+
         private int _page_size = 50;
         public int PageSize { 
             get
@@ -71,7 +75,10 @@ namespace crm_core
                     {LEADS, "Лиды" },
                     {ORDERS, "Заказы" },
                     {BILLS, "Счета" },
-                    {DOCUMENTS, "Документы" }
+                    {DOCUMENTS, "Документы" },
+                    {GOODS, "Товары" },
+                    {SERVICES, "Услуги" },
+                    {STAFF, "Сотрудники" },
                 };
             } 
         }
@@ -152,6 +159,15 @@ namespace crm_core
                             break;
                         case DOCUMENTS:
                             item = db.Documents.Find(pk);
+                            break;
+                        case GOODS:
+                            item = db.Goods.Find(pk);
+                            break;
+                        case SERVICES:
+                            item = db.Services.Find(pk);
+                            break;
+                        case STAFF:
+                            item = db.Staff.Find(pk);
                             break;
                         default:
                             item = "Not found";
@@ -243,7 +259,7 @@ namespace crm_core
                             break;
                         case DOCUMENTS:
                             _pages = db.Documents.Count();
-                            var doc_list = db.Deals.OrderByDescending(
+                            var doc_list = db.Documents.OrderByDescending(
                                     doc => doc.DtUpdated
                                 ).Skip(
                                     (page - 1) * _page_size
@@ -253,6 +269,45 @@ namespace crm_core
 
                             table.header<Documents>();
                             rows = iterate_data(doc_list);
+                            break;
+                        case GOODS:
+                            _pages = db.Goods.Count();
+                            var goods_list = db.Goods.OrderByDescending(
+                                    good => good.DtUpdated
+                                ).Skip(
+                                    (page - 1) * _page_size
+                                ).Take(
+                                    _page_size
+                                ).ToList();
+
+                            table.header<Goods>();
+                            rows = iterate_data(goods_list);
+                            break;
+                        case SERVICES:
+                            _pages = db.Services.Count();
+                            var service_list = db.Services.OrderByDescending(
+                                    srv => srv.DtUpdated
+                                ).Skip(
+                                    (page - 1) * _page_size
+                                ).Take(
+                                    _page_size
+                                ).ToList();
+
+                            table.header<Services>();
+                            rows = iterate_data(service_list);
+                            break;
+                        case STAFF:
+                            _pages = db.Staff.Count();
+                            var staff_list = db.Staff.OrderByDescending(
+                                    srv => srv.DtUpdated
+                                ).Skip(
+                                    (page - 1) * _page_size
+                                ).Take(
+                                    _page_size
+                                ).ToList();
+
+                            table.header<Staff>();
+                            rows = iterate_data(staff_list);
                             break;
                         default:
                             _pages = 1;
