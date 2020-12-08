@@ -116,7 +116,10 @@ namespace crm_core
 
             foreach (var prop in typeof(T).GetProperties())
             {
-                props.Add(prop);
+                if (prop.Name == "Id")
+                    props.Insert(0, prop);
+                else
+                    props.Add(prop);
             }
 
             foreach (T item in query)

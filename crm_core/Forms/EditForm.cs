@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
 using System.Reflection;
+using System.Linq;
 
 namespace crm_core.Forms
 {
@@ -28,6 +26,17 @@ namespace crm_core.Forms
             int y_offset = 10 + INPUT_HEIGHT;
             foreach (PropertyInfo property in props)
             {
+                bool implementICollection = property.PropertyType.GetInterfaces().Any(
+                    x => x.IsGenericType &&
+                    x.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+                );
+                bool implementsClone = property.PropertyType.GetInterfaces().Any(
+                    x => x == typeof(ICloneable)
+                );
+
+                if (implementICollection && !implementsClone)
+                    continue;
+
                 TextBox inpt = new TextBox();
                 Label label = new Label();
 

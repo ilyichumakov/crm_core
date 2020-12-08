@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+using System.Collections.Generic;
 
 namespace crm_core
 {
@@ -8,7 +9,16 @@ namespace crm_core
         {
             foreach (var prop in typeof(T).GetProperties())
             {
-                dgv.Columns.Add(prop.Name, prop.Name);
+                if (prop.Name == "Id")
+                {
+                    var col = new DataGridViewTextBoxColumn();
+                    col.HeaderText = prop.Name;
+                    col.Name = prop.Name;
+                    dgv.Columns.Insert(0, col);
+                }
+                else {
+                    dgv.Columns.Add(prop.Name, prop.Name);
+                }
             }
         }
     }

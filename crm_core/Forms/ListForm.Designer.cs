@@ -39,9 +39,8 @@
             // 
             // data_panel
             // 
-            this.data_panel.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.data_panel.AutoScroll = true;
-            this.data_panel.Location = new System.Drawing.Point(12, 27);
+            this.data_panel.Location = new System.Drawing.Point(0, 27);
             this.data_panel.Name = "data_panel";
             this.data_panel.Size = new System.Drawing.Size(891, 416);
             this.data_panel.TabIndex = 0;
