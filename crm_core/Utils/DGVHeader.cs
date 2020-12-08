@@ -1,5 +1,7 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace crm_core
 {
@@ -9,6 +11,17 @@ namespace crm_core
         {
             foreach (var prop in typeof(T).GetProperties())
             {
+                bool implementICollection = prop.PropertyType.GetInterfaces().Any(
+                    x => x.IsGenericType &&
+                    x.GetGenericTypeDefinition() == typeof(IEnumerable<>)
+                );
+                bool implementsClone = prop.PropertyType.GetInterfaces().Any(
+                    x => x == typeof(ICloneable)
+                );
+
+                if (implementICollection && !implementsClone)
+                    continue;
+
                 if (prop.Name == "Id")
                 {
                     var col = new DataGridViewTextBoxColumn();

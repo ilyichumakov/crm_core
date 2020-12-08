@@ -1,4 +1,4 @@
 ﻿namespace crm_core
 {
-    public delegate void Paginator(int parameter);
+    public delegate void Paginator();
 }

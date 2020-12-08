@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
@@ -39,24 +40,18 @@ namespace crm_core.Forms
 
                 TextBox inpt = new TextBox();
                 Label label = new Label();
+                Binding data_bind = new Binding("Text", Item, property.Name, true, DataSourceUpdateMode.OnValidation);
+                inpt.DataBindings.Add(data_bind);
 
                 inpt.Name = property.Name + "_inpt";
                 label.Name = property.Name + "_lbl";
                 label.Text = property.Name;
-                var value = property.GetValue(Item, null);
-                if (value is null)
-                {
-                    inpt.Text = String.Empty;
-                }
-                else
-                {
-                    inpt.Text = value.ToString();
-                }                
+                var value = property.GetValue(Item, null);           
 
                 inpt.Size = new Size(INPUT_WIDTH, INPUT_HEIGHT);
                 inpt.Location = new Point(10, y_offset);
                 label.Location = new Point(25 + INPUT_WIDTH, y_offset);
-                y_offset += INPUT_HEIGHT;
+                y_offset += INPUT_HEIGHT + 10;
 
                 panel_inputs.Controls.Add(inpt);
                 panel_inputs.Controls.Add(label);
@@ -65,6 +60,26 @@ namespace crm_core.Forms
 
         private void cancel_btn_Click(object sender, EventArgs e)
         {
+            Dispose();
+        }
+
+        private void apply_btn_Click(object sender, EventArgs e)
+        {
+            (Item as Models.AbstractModel).save();
+            (Owner as ListForm).load_data();
+        }
+
+        private void save_btn_Click(object sender, EventArgs e)
+        {
+            (Item as Models.AbstractModel).save();
+            (Owner as ListForm).load_data();
+            Dispose();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            (Item as Models.AbstractModel).delete();
+            (Owner as ListForm).load_data();
             Dispose();
         }
     }

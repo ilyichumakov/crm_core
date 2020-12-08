@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -44,9 +45,9 @@ namespace crm_core
         private int _page = 1;
         private int _pages = 1;
         private event Paginator paginate;
-        public void Notify(int parameter)
+        public void Notify()
         {
-            paginate?.Invoke(parameter);
+            paginate?.Invoke();
         }
         
         public int Page
@@ -63,7 +64,7 @@ namespace crm_core
                 if (target > _pages)
                     target = _pages;
                 _page = target;
-                this.Notify(target);
+                this.Notify();
             }
         }
         public Dictionary<string, string> state_choices { 
@@ -192,7 +193,7 @@ namespace crm_core
             edit_form.ShowDialog(this);
         }
 
-        private void load_data(int page = 1)
+        public void load_data()
         {
             try
             {
@@ -201,7 +202,90 @@ namespace crm_core
                 table.AutoSize = true;
                 table.ReadOnly = true;
                 table.CellClick += show_edit_form;
-                
+
+                //using (crmContext db = new crmContext())
+                //{
+                //    switch (State)
+                //    {
+                //        case LEADS:
+                //            table.DataSource = db.Leads.OrderByDescending(
+                //                l => l.DtUpdated
+                //            ).Skip(
+                //                (_page - 1) * _page_size
+                //            ).Take(
+                //                _page_size
+                //            );
+                //            break;
+                //        case CLIENTS:
+                //            table.DataSource = db.NaturalPerson.OrderByDescending(
+                //                l => l.DtUpdated
+                //            ).Skip(
+                //                (_page - 1) * _page_size
+                //            ).Take(
+                //                _page_size
+                //            );
+                //            break;
+                //        case ORDERS:
+                //            table.DataSource = db.Deals.OrderByDescending(
+                //                l => l.DtUpdated
+                //            ).Skip(
+                //                (_page - 1) * _page_size
+                //            ).Take(
+                //                _page_size
+                //            );
+                //            break;
+                //        case BILLS:
+                //            table.DataSource = db.Bills.OrderByDescending(
+                //                l => l.DtUpdated
+                //            ).Skip(
+                //                (_page - 1) * _page_size
+                //            ).Take(
+                //                _page_size
+                //            );
+                //            break;
+                //        case DOCUMENTS:
+                //            table.DataSource = db.Documents.OrderByDescending(
+                //                l => l.DtUpdated
+                //            ).Skip(
+                //                (_page - 1) * _page_size
+                //            ).Take(
+                //                _page_size
+                //            );
+                //            break;
+                //        case GOODS:
+                //            table.DataSource = db.Goods.OrderByDescending(
+                //                l => l.DtUpdated
+                //            ).Skip(
+                //                (_page - 1) * _page_size
+                //            ).Take(
+                //                _page_size
+                //            );
+                //            break;
+                //        case SERVICES:
+                //            table.DataSource = db.Services.OrderByDescending(
+                //                l => l.DtUpdated
+                //            ).Skip(
+                //                (_page - 1) * _page_size
+                //            ).Take(
+                //                _page_size
+                //            );
+                //            break;
+                //        case STAFF:
+                //            table.DataSource = db.Staff.OrderByDescending(
+                //                l => l.DtUpdated
+                //            ).Skip(
+                //                (_page - 1) * _page_size
+                //            ).Take(
+                //                _page_size
+                //            );
+                //            break;
+                //        default:
+                //            throw new ArgumentException("Запрос к несуществующей таблице!");
+                //            break;
+                //    }
+                //}
+                //table.DataSource = table.DataSource
+
                 List<object[]> rows;
 
                 using (crmContext db = new crmContext())
@@ -213,7 +297,7 @@ namespace crm_core
                             var leads_list = db.Leads.OrderByDescending(
                                     l => l.DtUpdated
                                 ).Skip(
-                                    (page - 1) * _page_size
+                                    (_page - 1) * _page_size
                                 ).Take(
                                     _page_size
                                 ).ToList();
@@ -226,7 +310,7 @@ namespace crm_core
                             var client_list = db.NaturalPerson.OrderByDescending(
                                     p => p.DtUpdated
                                 ).Skip(
-                                    (page - 1) * _page_size
+                                    (_page - 1) * _page_size
                                 ).Take(
                                     _page_size
                                 ).ToList();
@@ -239,7 +323,7 @@ namespace crm_core
                             var order_list = db.Deals.OrderByDescending(
                                     d => d.DtUpdated
                                 ).Skip(
-                                    (page - 1) * _page_size
+                                    (_page - 1) * _page_size
                                 ).Take(
                                     _page_size
                                 ).ToList();
@@ -252,7 +336,7 @@ namespace crm_core
                             var bill_list = db.Deals.OrderByDescending(
                                     b => b.DtUpdated
                                 ).Skip(
-                                    (page - 1) * _page_size
+                                    (_page - 1) * _page_size
                                 ).Take(
                                     _page_size
                                 ).ToList();
@@ -265,7 +349,7 @@ namespace crm_core
                             var doc_list = db.Documents.OrderByDescending(
                                     doc => doc.DtUpdated
                                 ).Skip(
-                                    (page - 1) * _page_size
+                                    (_page - 1) * _page_size
                                 ).Take(
                                     _page_size
                                 ).ToList();
@@ -278,7 +362,7 @@ namespace crm_core
                             var goods_list = db.Goods.OrderByDescending(
                                     good => good.DtUpdated
                                 ).Skip(
-                                    (page - 1) * _page_size
+                                    (_page - 1) * _page_size
                                 ).Take(
                                     _page_size
                                 ).ToList();
@@ -291,7 +375,7 @@ namespace crm_core
                             var service_list = db.Services.OrderByDescending(
                                     srv => srv.DtUpdated
                                 ).Skip(
-                                    (page - 1) * _page_size
+                                    (_page - 1) * _page_size
                                 ).Take(
                                     _page_size
                                 ).ToList();
@@ -304,7 +388,7 @@ namespace crm_core
                             var staff_list = db.Staff.OrderByDescending(
                                     srv => srv.DtUpdated
                                 ).Skip(
-                                    (page - 1) * _page_size
+                                    (_page - 1) * _page_size
                                 ).Take(
                                     _page_size
                                 ).ToList();

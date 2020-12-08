@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 
 namespace crm_core
 {
-    public partial class Users
+    public partial class Users : Models.AbstractModel
     {
         public Users()
         {

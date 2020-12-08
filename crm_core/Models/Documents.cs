@@ -4,7 +4,7 @@ using NpgsqlTypes;
 
 namespace crm_core
 {
-    public partial class Documents
+    public partial class Documents : Models.AbstractModel
     {
         public int Id { get; set; }
         public NpgsqlPath Path { get; set; }

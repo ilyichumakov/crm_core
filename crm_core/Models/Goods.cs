@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace crm_core
 {
-    public partial class Goods
+    public partial class Goods : Models.AbstractModel
     {
         public Goods()
         {

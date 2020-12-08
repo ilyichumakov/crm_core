@@ -4,7 +4,7 @@ using NpgsqlTypes;
 
 namespace crm_core
 {
-    public partial class Staff
+    public partial class Staff : Models.AbstractModel
     {
         public Staff()
         {

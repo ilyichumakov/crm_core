@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace crm_core
 {
-    public partial class Leads
+    public partial class Leads : Models.AbstractModel
     {
         public int Id { get; set; }
         public string Phone { get; set; }

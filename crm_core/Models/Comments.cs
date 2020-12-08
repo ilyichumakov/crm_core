@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace crm_core
 {
-    public partial class Comments
+    public partial class Comments : Models.AbstractModel
     {
         public Comments()
         {
